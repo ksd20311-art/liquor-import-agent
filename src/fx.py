@@ -3,6 +3,7 @@
 import csv
 import os
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -39,6 +40,38 @@ def has_api_key(env: dict = None) -> bool:
     return bool(env.get("DATA_GO_KR_KEY") or (env.get("DATA_GO_KR_KEY_FX") and env.get("DATA_GO_KR_KEY_TRADE")))
 
 
+API_REASONS = {
+    "30": "등록되지 않은 서비스키입니다. 키 값이 잘못 들어갔거나(따옴표·공백 포함 여부), 이 API의 활용 신청이 승인되지 않았는지 확인해 주세요",
+    "22": "오늘 호출 한도를 다 썼습니다. 내일 다시 시도해 주세요",
+    "29": "호출한 서버의 IP가 차단되었습니다. 공공데이터포털 활용지원센터에 문의가 필요합니다",
+    "31": "활용 기간이 끝난 서비스키입니다. 공공데이터포털에서 연장 신청이 필요합니다",
+    "32": "등록되지 않은 IP에서 호출했습니다. 공공데이터포털 마이페이지의 IP 설정을 확인해 주세요",
+}
+
+
+def api_error_reason(e: Exception, key: str = "") -> str:
+    """API 호출 오류를 사람이 읽을 원인으로 바꾼다. 공공데이터포털은 키 오류도 HTTP 403으로 돌려주므로 응답 본문을 읽어 구분한다."""
+    base = f"{type(e).__name__}: {e}"[:80]
+    body = ""
+    if isinstance(e, urllib.error.HTTPError):
+        try:
+            body = e.read().decode("utf-8", "replace")
+        except Exception:
+            body = ""
+        code = msg = ""
+        try:
+            root = ET.fromstring(body)
+            code = root.findtext(".//returnReasonCode") or ""
+            msg = root.findtext(".//returnAuthMsg") or root.findtext(".//errMsg") or ""
+        except ET.ParseError:
+            pass
+        if code or msg:
+            base += f" / 응답 코드 {code} {msg}".rstrip() + (f" - {API_REASONS[code]}" if code in API_REASONS else "")
+        elif e.code == 403:
+            base += " / 응답에 오류 코드가 없음 - 해외 서버(예: 웹앱 서버)의 접속이 막혔을 수 있습니다"
+    return base.replace(key, "***") if key else base
+
+
 def week_start(d: date) -> date:
     """관세환율 적용 주간은 일요일~토요일."""
     return d - timedelta(days=(d.weekday() + 1) % 7)
@@ -66,7 +99,7 @@ def fetch_week(on: date, env: dict = None):
         with urllib.request.urlopen(f"{FX_URL}?{q}", timeout=30) as r:
             body = r.read().decode("utf-8")
     except Exception as e:
-        why = f"{type(e).__name__}: {e}"[:80].replace(key, "***")
+        why = api_error_reason(e, key)
         raise RuntimeError(f"과세환율을 실시간으로 받지 못했습니다({why}). 호출 한도 소진이나 인터넷 연결 문제일 수 있으니 잠시 후 다시 시도해 주세요.")
     root = ET.fromstring(body)
     rates = {it.findtext("currSgn"): Decimal(it.findtext("fxrt")) for it in root.iter("item") if it.findtext("currSgn") and it.findtext("fxrt")}
@@ -141,7 +174,9 @@ def get_fx(currency: str, on: date, sample: bool = False, env: dict = None, save
                         body = r.read().decode("utf-8")
                     break
                 except Exception as e:  # 네트워크·인증 오류(키는 메시지에서 가린다)
-                    last = f"{type(e).__name__}: {e}"[:80].replace(key, "***")
+                    last = api_error_reason(e, key)
+                    if isinstance(e, urllib.error.HTTPError):
+                        break  # 키·권한 오류는 다시 불러도 같다
                     time.sleep(1)
             if body is None:
                 problems.append(f"API 호출 실패({last})")

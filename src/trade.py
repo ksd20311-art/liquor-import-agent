@@ -95,7 +95,8 @@ def get_trend(hs: str, country: str, end_ym: str, sample: bool, key: str = None,
     try:
         rows = load_samples(hs, country) if sample else fetch_live(hs, country, end_ym, key or "", save)
     except Exception as e:  # 실시간 조회 실패: 저장된 자료로 몰래 대신하지 않고 원인을 알린다
-        return None, (f"무역통계 API 조회에 실패했습니다({type(e).__name__}). 호출 한도 소진이나 인터넷 연결 문제일 수 있으니 "
+        from fx import api_error_reason
+        return None, (f"무역통계 API 조회에 실패했습니다({api_error_reason(e, key or '')}). 호출 한도 소진이나 인터넷 연결 문제일 수 있으니 "
                       "잠시 후 다시 시도해 주세요. 이 리포트에서는 시장 추이를 비워 둡니다.")
     series = build_series(rows)
     if not series:

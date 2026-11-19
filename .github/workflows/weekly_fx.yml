@@ -1,0 +1,40 @@
+# 과세환율 주 1회 자동 수집: 매주 월요일 09:00(한국 시간)에 그 주의 관세청 과세환율 전체를
+# data/fx_history.csv에 쌓고 저장소에 남긴다. 웹앱 「월간 변동 알림」 탭에 최근 수집 주간이 표시된다.
+name: 주간 과세환율 수집
+
+on:
+  schedule:
+    - cron: "0 0 * * 1"    # UTC 월요일 00:00 = 한국 시간 월요일 09:00
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: repo-data
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+      DATA_GO_KR_KEY_FX: ${{ secrets.DATA_GO_KR_KEY_FX }}
+      DATA_GO_KR_KEY_TRADE: ${{ secrets.DATA_GO_KR_KEY_TRADE }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install reportlab
+      - name: 과세환율 수집
+        run: python src/watch.py collect-fx
+      - name: 결과 저장
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/fx_history.csv
+          if git diff --cached --quiet; then echo "이번 주는 이미 수집됨"; exit 0; fi
+          git commit -m "과세환율 수집 $(date +%Y-%m-%d)"
+          git pull --rebase
+          git push

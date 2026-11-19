@@ -16,7 +16,14 @@ import re
 import shutil
 import sys
 import tempfile
-from datetime import date
+import time
+
+# 웹 서버는 해외(미국 시간)에 있을 수 있다. 등록일·적용 주간이 한국 날짜로 잡히도록 한국 시간으로 맞춘다.
+if hasattr(time, "tzset"):  # 리눅스 서버만. 윈도우 PC는 이미 한국 시간이라 건드리지 않는다
+    os.environ["TZ"] = "Asia/Seoul"
+    time.tzset()
+
+from datetime import date  # noqa: E402
 from pathlib import Path
 
 import streamlit as st
@@ -117,6 +124,32 @@ def html_table(head, rows, hl=None, num_from=1) -> str:
     b = "".join(f'<tr class="{"hl" if hl == ri else ""}">' + "".join(
         f'<td class="{"n" if i >= num_from else ""}">{e(str(c))}</td>' for i, c in enumerate(row)) + "</tr>" for ri, row in enumerate(rows))
     return f'<table class="rt"><tr>{h}</tr>{b}</table>'
+
+
+def latest_auto_alert():
+    """GitHub Actions가 매월 저장소에 남긴 최신 알림 결과(watchlist/reports/alert_YYYYMMDD.*). 없으면 None."""
+    reps = sorted(p for p in (ROOT / "watchlist" / "reports").glob("alert_*.json") if re.fullmatch(r"alert_\d{8}", p.stem))
+    if not reps:
+        return None
+    j = reps[-1]
+    try:
+        recs = json.loads(j.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    pdf, htm = j.with_suffix(".pdf"), j.with_suffix(".html")
+    return {"day": f"{j.stem[6:10]}-{j.stem[10:12]}-{j.stem[12:14]}", "recs": recs,
+            "pdf": pdf.read_bytes() if pdf.exists() else None, "html": htm.read_text(encoding="utf-8") if htm.exists() else None,
+            "stem": j.stem}
+
+
+def fx_history_status():
+    """주 1회 자동 수집한 과세환율 기록의 마지막 주간과 주 수."""
+    path = ROOT / "data" / "fx_history.csv"
+    if not path.exists():
+        return None
+    with open(path, encoding="utf-8-sig", newline="") as f:
+        weeks = sorted({r["week_start"] for r in csv.DictReader(f)})
+    return (weeks[-1], len(weeks)) if weeks else None
 
 
 def code_of(label: str) -> str:
@@ -286,6 +319,50 @@ with tab_report:
 with tab_watch:
     st.write("등록한 후보의 도착 원가가 **등록 시점보다 ±5% 이상** 움직이면, 환율·세율·현지가 효과로 나눠 알려 줍니다. "
              "현지가는 자동으로 모으지 않으니 바뀐 값은 직접 넣어 주세요.")
+
+    # ---- 1) 자동 확인: GitHub Actions가 매월 1일 공용 목록을 확인해 저장소에 남긴 결과 ----
+    st.markdown("#### 자동 확인 결과 (매월 1일)")
+    shared_path = ROOT / "watchlist" / "watchlist.json"
+    try:
+        shared = watch.load(shared_path)
+    except agent.AgentError:
+        shared = {"items": []}
+    auto = latest_auto_alert()
+    fxs = fx_history_status()
+    st.markdown(f'<div class="side-note">공용 목록 {len(shared["items"])}건을 매월 1일 09:10(한국 시간)에 서버가 자동으로 다시 계산하고, '
+                "알림이 있으면 저장소 관리자에게 메일로 알립니다. 과세환율은 매주 월요일 09:00에 자동으로 수집합니다"
+                + (f" (최근 수집 {e(fxs[0])} 주간, 누적 {fxs[1]}주)." if fxs else ".") + "</div>", unsafe_allow_html=True)
+    if not auto:
+        st.info("아직 자동 확인 결과가 없습니다. 다음 달 1일 첫 확인 뒤에 이 자리에 표시됩니다.")
+    else:
+        base_of = {x["id"]: x["baseline"]["landed_main"] for x in shared["items"]}
+        arows = []
+        for r in auto["recs"]:
+            if "error" in r:
+                arows.append([r["id"], r["name"][:30], "-", "-", "-", "확인 실패"])
+            else:
+                b0 = base_of.get(r["id"])
+                arows.append([r["id"], r["name"][:30], f"{agent.won(b0):,}" if b0 else "-", f"{agent.won(r['snapshot']['landed_main']):,}",
+                              f"{r['vs_baseline']['pct']:+.1f}%", "알림" if r.get("alert") else "기준 이내"])
+        n_al = sum(1 for r in auto["recs"] if r.get("alert"))
+        x0, x1, x2 = st.columns([3.2, 1, 1.1])
+        x0.markdown(f'<div class="cand">최근 자동 확인 ({e(auto["day"])})<small>공용 목록 {len(auto["recs"])}건 중 {n_al}건이 기준을 넘었습니다.</small></div>',
+                    unsafe_allow_html=True)
+        pdf_button(x1, "자동 알림 PDF 받기", auto["pdf"], None, f"{auto['stem']}.pdf")
+        if auto["html"]:
+            x2.download_button("자동 알림 HTML 받기", auto["html"], file_name=f"{auto['stem']}.html", mime="text/html", use_container_width=True)
+        st.markdown(html_table(["번호", "후보", "등록 시 원가(원)", "확인 원가(원)", "변동률", "판정"], arows, num_from=2), unsafe_allow_html=True)
+        if auto["html"]:
+            with st.expander("자동 알림 리포트 전체 보기"):
+                show_report(auto["html"], extra_px=max(0, len(auto["recs"]) - 3) * 300)
+    with st.expander("공용 목록에 후보를 넣거나 빼는 법"):
+        st.markdown("1. 아래 「목록 저장과 불러오기」에서 **[공용 목록 불러오기]**를 누릅니다.\n"
+                    "2. 「리포트 만들기」에서 후보를 만들고 [월간 알림에 등록]하거나, 아래 목록에서 [삭제]합니다.\n"
+                    "3. **[목록 파일 받기(watchlist.json)]**로 받은 파일을 GitHub 저장소의 `watchlist/watchlist.json`에 덮어 올립니다(저장소 관리자).\n"
+                    "4. 다음 달 1일 자동 확인부터 반영됩니다.")
+
+    # ---- 2) 바로 확인: 이 접속에서만 쓰는 목록 ----
+    st.markdown("#### 내 후보로 바로 확인하기")
     data = watch.load(WATCH_PATH)
     if not data["items"]:
         st.info("등록한 후보가 없습니다. 「리포트 만들기」에서 리포트를 만든 뒤 [월간 알림에 등록]을 눌러 주세요.")
@@ -323,8 +400,14 @@ with tab_watch:
             except (agent.AgentError, RuntimeError, ValueError) as ex:
                 st.error(f"중단: {ex}")
     with st.expander("목록 저장과 불러오기 (웹에서는 접속이 끝나면 목록이 지워집니다)"):
-        st.download_button("목록 파일 받기(watchlist.json)", WATCH_PATH.read_text(encoding="utf-8") if WATCH_PATH.exists() else "{}",
-                           file_name="watchlist.json", mime="application/json")
+        l1, l2 = st.columns(2)
+        l1.download_button("목록 파일 받기(watchlist.json)", WATCH_PATH.read_text(encoding="utf-8") if WATCH_PATH.exists() else "{}",
+                           file_name="watchlist.json", mime="application/json", use_container_width=True)
+        if l2.button("공용 목록 불러오기", use_container_width=True, help="자동 확인에 쓰는 공용 목록을 이 접속의 목록으로 가져옵니다(지금 목록은 바뀝니다)"):
+            if shared_path.exists():
+                shutil.copyfile(shared_path, WATCH_PATH)
+                st.session_state.pop("alert", None)
+                st.rerun()
         up = st.file_uploader("저장해 둔 목록 파일(watchlist.json) 올리기", type="json")
         if up is not None and st.session_state.get("uploaded_name") != up.name + str(up.size):
             try:

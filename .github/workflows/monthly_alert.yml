@@ -1,0 +1,69 @@
+# 월간 변동 알림: 매월 1일 09:10(한국 시간)에 공용 목록(watchlist/watchlist.json)을 다시 계산하고
+# 결과(watchlist/reports/alert_YYYYMMDD.*)를 저장소에 남긴다. 웹앱은 이 결과를 「월간 변동 알림」 탭에 보여 준다.
+# 기준을 넘은 후보가 있으면 이슈를 만들어 저장소 주인에게 메일로 알린다.
+# 키는 저장소 Settings > Secrets and variables > Actions에 DATA_GO_KR_KEY_FX, DATA_GO_KR_KEY_TRADE로 넣는다.
+name: 월간 변동 알림
+
+on:
+  schedule:
+    - cron: "10 0 1 * *"   # UTC 00:10 = 한국 시간 09:10, 매월 1일
+  workflow_dispatch:        # Actions 화면의 [Run workflow]로 바로 시험할 수 있다
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: repo-data
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Seoul
+      DATA_GO_KR_KEY_FX: ${{ secrets.DATA_GO_KR_KEY_FX }}
+      DATA_GO_KR_KEY_TRADE: ${{ secrets.DATA_GO_KR_KEY_TRADE }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 준비(패키지, 한글 글꼴)
+        run: |
+          pip install reportlab
+          sudo apt-get update -qq && sudo apt-get install -y -qq fonts-nanum
+      - name: 키 확인
+        run: |
+          if [ -z "$DATA_GO_KR_KEY_FX" ] || [ -z "$DATA_GO_KR_KEY_TRADE" ]; then
+            echo "::error::Actions Secrets에 DATA_GO_KR_KEY_FX, DATA_GO_KR_KEY_TRADE가 없습니다."; exit 1
+          fi
+      - name: 변동 확인
+        run: python src/watch.py check --no-open | tee alert_summary.txt
+      - name: 결과 저장
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add watchlist/
+          if git diff --cached --quiet; then echo "바뀐 결과 없음"; exit 0; fi
+          git commit -m "월간 변동 알림 $(date +%Y-%m-%d)"
+          git pull --rebase
+          git push
+      - name: 알림 메일(이슈)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if grep -q "→ 알림$" alert_summary.txt; then
+            {
+              echo "@${{ github.repository_owner }} 등록 후보 가운데 도착 원가가 기준을 넘게 움직인 후보가 있습니다."
+              echo
+              echo '```'
+              cat alert_summary.txt
+              echo '```'
+              echo
+              echo "웹앱의 「월간 변동 알림」 탭이나 watchlist/reports 폴더에서 리포트 전체를 볼 수 있습니다."
+            } > body.md
+            gh issue create --title "월간 변동 알림 $(date +%Y-%m-%d): 기준 초과 후보 있음" --body-file body.md
+          else
+            echo "기준을 넘은 후보가 없어 메일을 보내지 않습니다."
+          fi

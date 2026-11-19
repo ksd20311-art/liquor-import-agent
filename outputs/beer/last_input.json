@@ -1,0 +1,18 @@
+{
+  "product_name": "Asahi Super Dry 350ml",
+  "product_name_ko": "아사히 수퍼드라이 350ml 캔",
+  "report_name": "report_beer_asahi350",
+  "liquor_type": "beer",
+  "hs_code": "2203000000",
+  "origin_country": "JP",
+  "purchase_country": "JP",
+  "currency": "JPY",
+  "local_price": 220.0,
+  "local_price_note": "예시 가격입니다(판매처에서 확인한 값이 아님). 종량세 계산을 보여 주기 위한 입력입니다.",
+  "price_kind": "retail",
+  "checked_at": "2026-11-16",
+  "volume_ml": 350,
+  "abv_percent": 5.0,
+  "made_in_origin": "예",
+  "has_certificate": "모름"
+}

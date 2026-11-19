@@ -1,0 +1,215 @@
+{
+  "position": {
+    "cand_usd": 1.384403806125483,
+    "net_kg": 0.347725,
+    "unit": 3.981318013158338,
+    "market_avg": 0.7876955402811474,
+    "ratio": 5.054386891332799,
+    "months_total": 12,
+    "months_below": 12,
+    "month_min": 0.7716933958716631,
+    "month_max": 0.8203440216537204,
+    "abv_assumed": false,
+    "usd_rate": 1345.2
+  },
+  "input": {
+    "product_name": "Asahi Super Dry 350ml",
+    "product_name_ko": "아사히 수퍼드라이 350ml 캔",
+    "report_name": "report_beer_asahi350",
+    "liquor_type": "beer",
+    "hs_code": "2203000000",
+    "origin_country": "JP",
+    "purchase_country": "JP",
+    "currency": "JPY",
+    "local_price": 220.0,
+    "local_price_note": "예시 가격입니다(판매처에서 확인한 값이 아님). 종량세 계산을 보여 주기 위한 입력입니다.",
+    "price_kind": "retail",
+    "checked_at": "2026-11-16",
+    "volume_ml": 350,
+    "abv_percent": 5.0,
+    "made_in_origin": "예",
+    "has_certificate": "모름"
+  },
+  "assumptions": {
+    "_note": "아래 값은 모두 「가정」입니다. 확인된 근거가 없으며 11월에 검증합니다. 리포트에도 가정으로 표시됩니다.",
+    "freight_local": 0,
+    "insurance_local": 0,
+    "clearance_domestic_krw": 0,
+    "retail_margin": 0.3,
+    "labels": {
+      "freight_local": "운임(현지 통화): 0 - 가정, 미반영(구매 가격에 포함된 것으로 봄)",
+      "insurance_local": "보험료(현지 통화): 0 - 가정, 미반영",
+      "clearance_domestic_krw": "통관·국내운송비(원): 0 - 가정, 미반영",
+      "retail_margin": "마진율: 30% - 가정(입력하지 않으면 적용, 근거 없음)"
+    },
+    "margin_input": false
+  },
+  "fx": {
+    "rate": "8.465",
+    "week_start": "2026-11-15",
+    "week_end": "2026-11-21",
+    "source": "관세청_관세환율정보 API(실시간 호출)",
+    "warning": ""
+  },
+  "rates": {
+    "협정세율": "0.225",
+    "일반세율": "0.3"
+  },
+  "costs": {
+    "협정세율": {
+      "taxable_value": "1862.3000",
+      "customs": "419.0175000",
+      "liquor_tax": "309.995",
+      "edu_tax": "92.99850",
+      "vat": "268.431100000",
+      "total_tax": "1090.442100000",
+      "customs_rate": "0.225",
+      "clearance_domestic": "0",
+      "landed_cost": "2952.742100000",
+      "expected_retail": "3838.5647300000"
+    },
+    "일반세율": {
+      "taxable_value": "1862.3000",
+      "customs": "558.69000",
+      "liquor_tax": "309.995",
+      "edu_tax": "92.99850",
+      "vat": "282.3983500",
+      "total_tax": "1244.0818500",
+      "customs_rate": "0.3",
+      "clearance_domestic": "0",
+      "landed_cost": "3106.3818500",
+      "expected_retail": "4038.29640500"
+    }
+  },
+  "ref_costs": null,
+  "sensitivity": {
+    "협정세율": {
+      "per_krw": "1.34750",
+      "ten_pct_local": "22.00",
+      "ten_pct_krw": "186.23000",
+      "ten_pct_delta": "250.9449250000",
+      "clearance_per_krw": "1.000000000",
+      "clearance_example": "100000",
+      "clearance_delta": "100000.000000000"
+    },
+    "일반세율": {
+      "per_krw": "1.430",
+      "ten_pct_local": "22.00",
+      "ten_pct_krw": "186.23000",
+      "ten_pct_delta": "266.30890000",
+      "clearance_per_krw": "1.0000000",
+      "clearance_example": "100000",
+      "clearance_delta": "100000.0000000"
+    }
+  },
+  "trend": {
+    "table": [
+      {
+        "ym": "202511",
+        "usd": 5076072,
+        "kg": 6528694,
+        "unit_usd_per_kg": 0.777501901605436,
+        "yoy_pct": -8.985884764424522
+      },
+      {
+        "ym": "202512",
+        "usd": 6877703,
+        "kg": 8760338,
+        "unit_usd_per_kg": 0.7850956207397477,
+        "yoy_pct": 18.094415050253243
+      },
+      {
+        "ym": "202601",
+        "usd": 6342148,
+        "kg": 8155903,
+        "unit_usd_per_kg": 0.7776144468613715,
+        "yoy_pct": 20.651671230156055
+      },
+      {
+        "ym": "202602",
+        "usd": 6692447,
+        "kg": 8427331,
+        "unit_usd_per_kg": 0.794136008185747,
+        "yoy_pct": -1.1313149040940274
+      },
+      {
+        "ym": "202603",
+        "usd": 7435382,
+        "kg": 9409734,
+        "unit_usd_per_kg": 0.7901798286752846,
+        "yoy_pct": 61.76491576473126
+      },
+      {
+        "ym": "202604",
+        "usd": 8813180,
+        "kg": 11313826,
+        "unit_usd_per_kg": 0.7789743275174994,
+        "yoy_pct": 69.30444247474125
+      },
+      {
+        "ym": "202605",
+        "usd": 7372625,
+        "kg": 9326806,
+        "unit_usd_per_kg": 0.7904769328320971,
+        "yoy_pct": 16.29276161011124
+      },
+      {
+        "ym": "202606",
+        "usd": 9265798,
+        "kg": 11671806,
+        "unit_usd_per_kg": 0.7938615497892957,
+        "yoy_pct": 29.778479581013386
+      },
+      {
+        "ym": "202607",
+        "usd": 10517390,
+        "kg": 13628975,
+        "unit_usd_per_kg": 0.7716933958716631,
+        "yoy_pct": 23.769951530626955
+      },
+      {
+        "ym": "202608",
+        "usd": 10048099,
+        "kg": 12783349,
+        "unit_usd_per_kg": 0.7860302491936972,
+        "yoy_pct": 36.53920551217256
+      },
+      {
+        "ym": "202609",
+        "usd": 8736136,
+        "kg": 11054120,
+        "unit_usd_per_kg": 0.790305876903815,
+        "yoy_pct": -3.294510786988447
+      },
+      {
+        "ym": "202610",
+        "usd": 7668160,
+        "kg": 9347493,
+        "unit_usd_per_kg": 0.8203440216537204,
+        "yoy_pct": 9.598564328784253
+      }
+    ],
+    "summary": {
+      "last_month": "202610",
+      "usd_12m": 94845140,
+      "kg_12m": 120408375,
+      "usd_prev_12m": 78595093,
+      "months_available": 12,
+      "unit_12m": 0.7876955402811474,
+      "yoy_12m_pct": 20.675650832298142
+    }
+  },
+  "trend_msg": "",
+  "sample_mode": false,
+  "as_of": "2026-11-16",
+  "pdf_engine": "html",
+  "fta": {
+    "verdict": "확인 필요",
+    "reason": "원산지증명서 발급 가능 여부 또는 생산지가 확인되지 않았다.",
+    "agreement": "RCEP",
+    "preferential_rate": "0.225",
+    "general_rate": "0.3",
+    "documents": "",
+    "disclaimer": "참고용 판정이며 실제 적용 여부는 통관 시 관세사를 통해 확정된다."
+  }
+}

@@ -1,0 +1,101 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>등록 후보 5건 중 5건, 기준 ±5% 초과 변동</title><style>
+  @page { size: A4; margin: 29mm 17mm 35mm 15mm; }
+  :root { --ink:#231f20; --gray:#5f636a; --rule:#c8c9cc; --accent:#1e5e9e; --accent-2:#6f9fd0; --accent-3:#c9dcf0;
+          --accent-4:#0f3d6b; --accent-5:#a9c6e4; --tint:#f3f6fa; }
+  * { box-sizing: border-box; }
+  body { margin:0; color:var(--ink); background:#fff; font-family:'NanumBarunGothic','Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif; font-size:8.5pt; line-height:1.65; }
+  .num, td.n, th.n { font-family:'Open Sans','NanumBarunGothic','Noto Sans KR','Malgun Gothic',sans-serif; font-variant-numeric:tabular-nums; }
+  body, p, h1, h2, h3, td, th, li { word-break:keep-all; overflow-wrap:break-word; }
+  .refs { word-break:break-all; }
+  section.page { page-break-after:always; }
+  section.page:last-child { page-break-after:auto; }
+  section.page.fit { display:flex; flex-direction:column; min-height:230mm; }
+  @media screen { body { background:#e9eaec; padding:16px; }
+    section.page, section.page.fit { width:210mm; max-width:100%; min-height:297mm; margin:0 auto 16px; background:#fff; padding:29mm 17mm 35mm 15mm; } }
+  .eyebrow { font-size:9pt; color:var(--accent); font-weight:700; letter-spacing:.02em; margin:0 0 3mm; }
+  h1 { font-size:24pt; line-height:1.3; margin:0 0 5mm; letter-spacing:-.01em; }
+  h2 { font-size:17pt; line-height:1.3; margin:0 0 4mm; letter-spacing:-.01em; }
+  h3 { font-size:11pt; line-height:1.35; margin:5mm 0 2.2mm; padding-left:2.5mm; border-left:1mm solid var(--accent); }
+  .split h3:first-child, .cols2 h3:first-child { margin-top:0; }
+  .lead { font-size:10pt; line-height:1.55; color:var(--gray); margin:0 0 5mm; }
+  p { margin:0 0 3mm; }
+  .grow { flex:1; min-height:3mm; }
+  .pagefoot { border-top:.5px solid var(--rule); padding-top:2mm; font-size:7pt; color:var(--gray); display:flex; justify-content:space-between; }
+  /* 표지 */
+  .cover .bar { height:4mm; width:40mm; background:var(--accent); margin-bottom:8mm; }
+  .cover .meta { font-size:8pt; color:var(--gray); margin:0; }
+  .facts { display:grid; grid-template-columns:1fr 1fr; column-gap:8mm; border-top:1.5px solid var(--ink); margin-top:14mm; }
+  .facts div { display:flex; justify-content:space-between; gap:5mm; padding:2.4mm 0; border-bottom:.5px solid var(--rule); }
+  .facts span { color:var(--gray); white-space:nowrap; } .facts b { text-align:right; }
+  /* 요약 */
+  .concl { background:var(--accent-4); color:#fff; padding:4mm 5.5mm; font-size:10pt; line-height:1.55; margin:0 0 5mm; }
+  .concl b { display:block; font-size:8pt; color:var(--accent-3); letter-spacing:.06em; margin-bottom:1mm; }
+  .keys { display:grid; grid-template-columns:repeat(3,1fr); gap:4mm; }
+  .key { background:var(--tint); border-top:2px solid var(--accent); padding:3.5mm 4mm 3mm; }
+  .key .big { font-size:20pt; font-weight:700; color:var(--accent); line-height:1.15; }
+  .key .cmp { font-size:7.5pt; line-height:1.5; color:var(--gray); margin:.8mm 0 2mm; }
+  .key p { margin:0; }
+  .note { border:.5px solid var(--rule); border-left:1.2mm solid var(--accent); padding:2.5mm 3.5mm; margin-top:5mm; font-size:8pt; line-height:1.6; }
+  .note p { margin:0 0 1.5mm; } .note p:last-child { margin:0; }
+  /* 본문 */
+  .split { display:grid; grid-template-columns:1.1fr 1fr; gap:7mm; align-items:start; margin-bottom:4mm; }
+  .cols2 { display:grid; grid-template-columns:1fr 1fr; gap:7mm; align-items:start; margin-bottom:3mm; }
+  .cols2 p:last-child { margin-bottom:0; }
+  figure { margin:0; }
+  figcaption { font-size:9pt; font-weight:700; margin-bottom:2mm; }
+  .source { font-size:7pt; line-height:1.5; color:var(--gray); margin-top:2mm; }
+  table { width:100%; border-collapse:collapse; font-size:8pt; line-height:1.5; }
+  th { text-align:left; font-weight:700; border-bottom:1.5px solid var(--ink); padding:1.6mm 1.2mm; vertical-align:bottom; }
+  td { border-bottom:.5px solid var(--rule); padding:1.6mm 1.2mm; vertical-align:top; }
+  table.compact { line-height:1.4; } table.compact th, table.compact td { padding:.55mm 1.2mm; }
+  td:first-child, th:first-child { white-space:nowrap; padding-right:3mm; }
+  td.n, th.n { text-align:right; }
+  tr.hl td { background:#e6eef8; font-weight:700; }
+  .legend { font-size:7.5pt; margin-top:2mm; } .legend span.sw { display:inline-block; width:2.6mm; height:2.6mm; margin-right:1.2mm; vertical-align:-0.3mm; }
+  .legend div { padding:.7mm 0; border-bottom:.5px solid var(--rule); display:flex; justify-content:space-between; }
+  .flow { display:flex; align-items:stretch; gap:1.4mm; }
+  .flow .cell { flex:1; background:var(--tint); padding:2.4mm 1.5mm; text-align:center; line-height:1.4; }
+  .flow .cell small { display:block; font-size:7pt; color:var(--gray); } .flow .cell b { font-size:10pt; }
+  .flow .op { align-self:center; font-size:10pt; font-weight:700; color:var(--gray); }
+  .flow .cell.total { flex:1.3; background:var(--accent-4); color:#fff; } .flow .cell.total small { color:var(--accent-3); }
+  .badge { background:var(--tint); border-left:1.5mm solid var(--accent); padding:4mm 5mm; }
+  .badge small { display:block; font-size:7.5pt; color:var(--gray); }
+  .badge b { display:block; font-size:18pt; line-height:1.2; color:var(--accent); margin:.5mm 0 1.5mm; }
+  .badge p { margin:0; }
+  .stats { display:grid; gap:2mm; }
+  .stat { background:var(--tint); border-left:1mm solid var(--accent-2); padding:2mm 3.5mm; line-height:1.35; }
+  .stat small { display:block; font-size:7.5pt; color:var(--gray); } .stat span { display:block; font-size:7pt; color:var(--gray); }
+  .stat b { display:block; font-size:13pt; color:var(--accent); }
+  ol.implication { list-style:none; padding:0; margin:0; counter-reset:todo; border-top:1.5px solid var(--ink); }
+  ol.implication li { counter-increment:todo; position:relative; margin:0; padding:1.7mm 0 1.7mm 9mm; border-bottom:.5px solid var(--rule); }
+  ol.implication li::before { content:counter(todo); position:absolute; left:0; top:1.6mm; width:5.4mm; height:5.4mm; border-radius:50%;
+    background:var(--accent); color:#fff; font-size:8pt; font-weight:700; line-height:5.4mm; text-align:center; }
+  .refs { font-size:7.5pt; line-height:1.5; color:var(--gray); margin-bottom:1.5mm; } ol.refs { padding-left:4mm; margin:0; } ol.refs li { margin-bottom:.8mm; }
+  .running { font-size:7pt; color:var(--gray); border-top:.5px solid var(--rule); padding-top:2mm; margin-top:8mm; }
+</style></head><body><section class="page"><p class="eyebrow">월간 변동 알림 · 2026-11-16</p><h2>등록 후보 5건 중 5건, 기준 ±5% 초과 변동</h2>
+<p class="lead">기준일 2026-11-16에 등록 후보 5건의 도착 원가를 다시 계산한 결과 5건이 등록 시점 대비 ±5% 기준을 넘었다. 변동이 가장 큰 후보는 Moet Chandon Imperial로 등록 시점보다 -11.1% 움직였다.</p><div class="keys">
+<div class="key"><div class="big num">5건 / 5건</div><div class="cmp">알림 건수 / 등록 후보, 기준 ±5%</div><p>등록 시점 원가 대비 변동률이 기준을 넘은 후보의 수다.</p></div>
+<div class="key"><div class="big num">-11.1%</div><div class="cmp">Moet Chandon Imperial, 등록 2026-07-27 대비</div><p>변동률의 절댓값이 가장 큰 후보의 도착 원가 변동이다.</p></div>
+<div class="key"><div class="big num">11-15~11-21</div><div class="cmp">이번 확인에 쓴 관세청 과세환율 적용 주간(2026년)</div><p>과세환율은 관세청이 매주 고시하는 수입 환율이다.</p></div></div>
+<figure style="margin-top:7mm"><figcaption>후보별 도착 원가 변동 (단위: 원, 기준일 2026-11-16)</figcaption>
+<table><tr><th class="">후보</th><th class="">등록일</th><th class="n">등록 시 원가</th><th class="n">현재 원가</th><th class="n">변동액</th><th class="n">등록 대비</th><th class="n">직전 확인 대비</th><th class="n">판정</th></tr><tr><td class="">산토리 싱글몰트 위스키 야마자키 12년</td><td class="">2026-07-27(소급)</td><td class="n">492,297</td><td class="n">459,555</td><td class="n">-32,742</td><td class="n">-6.7%</td><td class="n">-6.7%</td><td class="n">알림</td></tr><tr><td class="">Asahi Super Dry</td><td class="">2026-07-27(소급)</td><td class="n">3,132</td><td class="n">2,953</td><td class="n">-179</td><td class="n">-5.7%</td><td class="n">-5.7%</td><td class="n">알림</td></tr><tr><td class="">Macallan 12 Scotch</td><td class="">2026-07-27(소급)</td><td class="n">295,039</td><td class="n">267,376</td><td class="n">-27,663</td><td class="n">-9.4%</td><td class="n">-9.4%</td><td class="n">알림</td></tr><tr><td class="">Maker&#x27;s Mark Bourbon</td><td class="">2026-07-27(소급)</td><td class="n">94,455</td><td class="n">85,942</td><td class="n">-8,512</td><td class="n">-9.0%</td><td class="n">-9.0%</td><td class="n">알림</td></tr><tr><td class="">Moet Chandon Imperial</td><td class="">2026-07-27(소급)</td><td class="n">111,011</td><td class="n">98,647</td><td class="n">-12,364</td><td class="n">-11.1%</td><td class="n">-11.1%</td><td class="n">알림</td></tr></table>
+<p class="source">출처: 본 에이전트 계산(관세청 관세환율정보, 품목번호별 관세율표 2026, 주세법 제8조). 원가는 후보별 주 시나리오(협정세율이 있으면 협정세율) 기준이다. 등록일에 (소급)이 붙은 후보는 실제 등록한 날보다 앞선 날짜를 기준일로 정해, 그 주의 과세환율로 기준 원가를 계산했다.</p></figure>
+<div class="note"><p><b>읽는 법.</b> 등록할 때의 환율·세율·현지가로 계산한 도착 원가를 기준으로, 지금 값으로 다시 계산한 원가가 기준 폭을 넘으면 알림으로 표시한다. 현지가는 자동으로 모으지 않으므로 사용자가 갱신한 값만 반영된다.</p></div></section><section class="page"><p class="eyebrow">원인 분해</p><h2>환율·세율·현지가로 나눈 후보별 변동 원인</h2>
+<p class="lead">환율, 세율, 현지가를 차례로 지금 값으로 바꿔 다시 계산한 차이이며 세 효과의 합은 전체 변동과 같다.</p>
+<div style="margin-bottom:8mm;page-break-inside:avoid"><h3>w1 · 산토리 싱글몰트 위스키 야마자키 12년 700ml (JAN 4901777188914) — 알림 (-6.7%, 기준 ±5%)</h3>
+<p>엔화 과세환율이 100엔당 906.81원에서 846.50원으로 내려 도착 원가가 32,742원(-6.7%) 줄었다. 적용 관세율은 13.3%로 변하지 않았다. 현지가는 등록한 값 22,500JPY 그대로다(자동 수집하지 않으므로 직접 갱신해야 반영된다).</p>
+<table><tr><th class="">요인</th><th class="n">등록 시점(2026-07-27)</th><th class="n">현재(2026-11-16)</th><th class="n">원가 영향(원)</th><th class="n">등록 원가 대비</th></tr><tr><td class="">과세환율(100엔당)</td><td class="n">906.81원</td><td class="n">846.50원</td><td class="n">-32,742</td><td class="n">-6.7%</td></tr><tr><td class="">적용 관세율</td><td class="n">13.3% (협정세율)</td><td class="n">13.3% (협정세율)</td><td class="n">+0</td><td class="n">+0.0%</td></tr><tr><td class="">현지가</td><td class="n">22,500 JPY</td><td class="n">22,500 JPY</td><td class="n">+0</td><td class="n">+0.0%</td></tr><tr class="hl"><td class="">도착 원가</td><td class="n">492,297원</td><td class="n">459,555원</td><td class="n">-32,742</td><td class="n">-6.7%</td></tr></table>
+<p class="source">출처: 본 에이전트 계산. 과세환율은 관세청_관세환율정보 API(실시간 호출), 적용 주간 2026-11-15~2026-11-21. FTA 판정은 등록 시 「확인 필요」, 현재 「확인 필요」다. 메모: 현지가는 2026-10-27 일본 판매처 확인값(22,500엔)을 그대로 사용</p></div><div style="margin-bottom:8mm;page-break-inside:avoid"><h3>w2 · Asahi Super Dry 350ml — 알림 (-5.7%, 기준 ±5%)</h3>
+<p>엔화 과세환율이 100엔당 906.81원에서 846.50원으로 내려 도착 원가가 179원(-5.7%) 줄었다. 적용 관세율은 22.5%로 변하지 않았다. 현지가는 등록한 값 220JPY 그대로다(자동 수집하지 않으므로 직접 갱신해야 반영된다).</p>
+<table><tr><th class="">요인</th><th class="n">등록 시점(2026-07-27)</th><th class="n">현재(2026-11-16)</th><th class="n">원가 영향(원)</th><th class="n">등록 원가 대비</th></tr><tr><td class="">과세환율(100엔당)</td><td class="n">906.81원</td><td class="n">846.50원</td><td class="n">-179</td><td class="n">-5.7%</td></tr><tr><td class="">적용 관세율</td><td class="n">22.5% (협정세율)</td><td class="n">22.5% (협정세율)</td><td class="n">+0</td><td class="n">+0.0%</td></tr><tr><td class="">현지가</td><td class="n">220 JPY</td><td class="n">220 JPY</td><td class="n">+0</td><td class="n">+0.0%</td></tr><tr class="hl"><td class="">도착 원가</td><td class="n">3,132원</td><td class="n">2,953원</td><td class="n">-179</td><td class="n">-5.7%</td></tr></table>
+<p class="source">출처: 본 에이전트 계산. 과세환율은 관세청_관세환율정보 API(실시간 호출), 적용 주간 2026-11-15~2026-11-21. FTA 판정은 등록 시 「확인 필요」, 현재 「확인 필요」다. 메모: 예시 가격(판매처에서 확인한 값이 아님)</p></div><div style="margin-bottom:8mm;page-break-inside:avoid"><h3>w3 · Macallan 12 Scotch Whisky 70cl — 알림 (-9.4%, 기준 ±5%)</h3>
+<p>파운드 과세환율이 1파운드당 1,979.17원에서 1,793.60원으로 내려 도착 원가가 27,663원(-9.4%) 줄었다. 적용 관세율은 0%로 변하지 않았다. 현지가는 등록한 값 70GBP 그대로다(자동 수집하지 않으므로 직접 갱신해야 반영된다).</p>
+<table><tr><th class="">요인</th><th class="n">등록 시점(2026-07-27)</th><th class="n">현재(2026-11-16)</th><th class="n">원가 영향(원)</th><th class="n">등록 원가 대비</th></tr><tr><td class="">과세환율(1파운드당)</td><td class="n">1,979.17원</td><td class="n">1,793.60원</td><td class="n">-27,663</td><td class="n">-9.4%</td></tr><tr><td class="">적용 관세율</td><td class="n">0% (협정세율)</td><td class="n">0% (협정세율)</td><td class="n">+0</td><td class="n">+0.0%</td></tr><tr><td class="">현지가</td><td class="n">70 GBP</td><td class="n">70 GBP</td><td class="n">+0</td><td class="n">+0.0%</td></tr><tr class="hl"><td class="">도착 원가</td><td class="n">295,039원</td><td class="n">267,376원</td><td class="n">-27,663</td><td class="n">-9.4%</td></tr></table>
+<p class="source">출처: 본 에이전트 계산. 과세환율은 관세청_관세환율정보 API(실시간 호출), 적용 주간 2026-11-15~2026-11-21. FTA 판정은 등록 시 「확인 필요」, 현재 「확인 필요」다. 메모: 예시 가격(판매처에서 확인한 값이 아님)</p></div><div style="margin-bottom:8mm;page-break-inside:avoid"><h3>w4 · Maker&#x27;s Mark Bourbon Whisky 750ml — 알림 (-9.0%, 기준 ±5%)</h3>
+<p>달러 과세환율이 1달러당 1,478.44원에서 1,345.20원으로 내려 도착 원가가 8,512원(-9.0%) 줄었다. 적용 관세율은 0%로 변하지 않았다. 현지가는 등록한 값 30USD 그대로다(자동 수집하지 않으므로 직접 갱신해야 반영된다).</p>
+<table><tr><th class="">요인</th><th class="n">등록 시점(2026-07-27)</th><th class="n">현재(2026-11-16)</th><th class="n">원가 영향(원)</th><th class="n">등록 원가 대비</th></tr><tr><td class="">과세환율(1달러당)</td><td class="n">1,478.44원</td><td class="n">1,345.20원</td><td class="n">-8,512</td><td class="n">-9.0%</td></tr><tr><td class="">적용 관세율</td><td class="n">0% (협정세율)</td><td class="n">0% (협정세율)</td><td class="n">+0</td><td class="n">+0.0%</td></tr><tr><td class="">현지가</td><td class="n">30 USD</td><td class="n">30 USD</td><td class="n">+0</td><td class="n">+0.0%</td></tr><tr class="hl"><td class="">도착 원가</td><td class="n">94,455원</td><td class="n">85,942원</td><td class="n">-8,512</td><td class="n">-9.0%</td></tr></table>
+<p class="source">출처: 본 에이전트 계산. 과세환율은 관세청_관세환율정보 API(실시간 호출), 적용 주간 2026-11-15~2026-11-21. FTA 판정은 등록 시 「확인 필요」, 현재 「확인 필요」다. 메모: 예시 가격(판매처에서 확인한 값이 아님)</p></div><div style="margin-bottom:8mm;page-break-inside:avoid"><h3>w5 · Moet Chandon Imperial Brut Champagne 750ml — 알림 (-11.1%, 기준 ±5%)</h3>
+<p>유로 과세환율이 1유로당 1,686.20원에서 1,498.40원으로 내려 도착 원가가 12,364원(-11.1%) 줄었다. 적용 관세율은 0%로 변하지 않았다. 현지가는 등록한 값 45EUR 그대로다(자동 수집하지 않으므로 직접 갱신해야 반영된다).</p>
+<table><tr><th class="">요인</th><th class="n">등록 시점(2026-07-27)</th><th class="n">현재(2026-11-16)</th><th class="n">원가 영향(원)</th><th class="n">등록 원가 대비</th></tr><tr><td class="">과세환율(1유로당)</td><td class="n">1,686.20원</td><td class="n">1,498.40원</td><td class="n">-12,364</td><td class="n">-11.1%</td></tr><tr><td class="">적용 관세율</td><td class="n">0% (협정세율)</td><td class="n">0% (협정세율)</td><td class="n">+0</td><td class="n">+0.0%</td></tr><tr><td class="">현지가</td><td class="n">45 EUR</td><td class="n">45 EUR</td><td class="n">+0</td><td class="n">+0.0%</td></tr><tr class="hl"><td class="">도착 원가</td><td class="n">111,011원</td><td class="n">98,647원</td><td class="n">-12,364</td><td class="n">-11.1%</td></tr></table>
+<p class="source">출처: 본 에이전트 계산. 과세환율은 관세청_관세환율정보 API(실시간 호출), 적용 주간 2026-11-15~2026-11-21. FTA 판정은 등록 시 「확인 필요」, 현재 「확인 필요」다. 메모: 예시 가격(판매처에서 확인한 값이 아님)</p></div>
+<h3>방법과 한계</h3><p class="refs">분해 순서는 환율, 세율, 현지가다. 순서를 바꾸면 요인별 금액이 조금 달라질 수 있으나 합계는 같다. 현지가는 자동 수집하지 않아 사용자가 갱신할 때만 반영된다. 세율은 규칙표(config/fta_rules.csv, tax_rules.csv)를 새 관세율표로 갱신해야 바뀐다. 운임·보험료·통관비는 가정값이며 세액과 FTA 판정은 참고용이다.</p></section></body></html>

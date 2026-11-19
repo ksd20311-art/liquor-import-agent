@@ -1,0 +1,116 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>아사히 수퍼드라이 캔의 도착 원가와 FTA 판정</title><style>
+  @page { size: A4; margin: 29mm 17mm 35mm 15mm; }
+  :root { --ink:#231f20; --gray:#5f636a; --rule:#c8c9cc; --accent:#1e5e9e; --accent-2:#6f9fd0; --accent-3:#c9dcf0;
+          --accent-4:#0f3d6b; --accent-5:#a9c6e4; --tint:#f3f6fa; }
+  * { box-sizing: border-box; }
+  body { margin:0; color:var(--ink); background:#fff; font-family:'NanumBarunGothic','Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif; font-size:8.5pt; line-height:1.65; }
+  .num, td.n, th.n { font-family:'Open Sans','NanumBarunGothic','Noto Sans KR','Malgun Gothic',sans-serif; font-variant-numeric:tabular-nums; }
+  body, p, h1, h2, h3, td, th, li { word-break:keep-all; overflow-wrap:break-word; }
+  .refs { word-break:break-all; }
+  section.page { page-break-after:always; }
+  section.page:last-child { page-break-after:auto; }
+  section.page.fit { display:flex; flex-direction:column; min-height:230mm; }
+  @media screen { body { background:#e9eaec; padding:16px; }
+    section.page, section.page.fit { width:210mm; max-width:100%; min-height:297mm; margin:0 auto 16px; background:#fff; padding:29mm 17mm 35mm 15mm; } }
+  .eyebrow { font-size:9pt; color:var(--accent); font-weight:700; letter-spacing:.02em; margin:0 0 3mm; }
+  h1 { font-size:24pt; line-height:1.3; margin:0 0 5mm; letter-spacing:-.01em; }
+  h2 { font-size:17pt; line-height:1.3; margin:0 0 4mm; letter-spacing:-.01em; }
+  h3 { font-size:11pt; line-height:1.35; margin:5mm 0 2.2mm; padding-left:2.5mm; border-left:1mm solid var(--accent); }
+  .split h3:first-child, .cols2 h3:first-child { margin-top:0; }
+  .lead { font-size:10pt; line-height:1.55; color:var(--gray); margin:0 0 5mm; }
+  p { margin:0 0 3mm; }
+  .grow { flex:1; min-height:3mm; }
+  .pagefoot { border-top:.5px solid var(--rule); padding-top:2mm; font-size:7pt; color:var(--gray); display:flex; justify-content:space-between; }
+  /* 표지 */
+  .cover .bar { height:4mm; width:40mm; background:var(--accent); margin-bottom:8mm; }
+  .cover .meta { font-size:8pt; color:var(--gray); margin:0; }
+  .facts { display:grid; grid-template-columns:1fr 1fr; column-gap:8mm; border-top:1.5px solid var(--ink); margin-top:14mm; }
+  .facts div { display:flex; justify-content:space-between; gap:5mm; padding:2.4mm 0; border-bottom:.5px solid var(--rule); }
+  .facts span { color:var(--gray); white-space:nowrap; } .facts b { text-align:right; }
+  /* 요약 */
+  .concl { background:var(--accent-4); color:#fff; padding:4mm 5.5mm; font-size:10pt; line-height:1.55; margin:0 0 5mm; }
+  .concl b { display:block; font-size:8pt; color:var(--accent-3); letter-spacing:.06em; margin-bottom:1mm; }
+  .keys { display:grid; grid-template-columns:repeat(3,1fr); gap:4mm; }
+  .key { background:var(--tint); border-top:2px solid var(--accent); padding:3.5mm 4mm 3mm; }
+  .key .big { font-size:20pt; font-weight:700; color:var(--accent); line-height:1.15; }
+  .key .cmp { font-size:7.5pt; line-height:1.5; color:var(--gray); margin:.8mm 0 2mm; }
+  .key p { margin:0; }
+  .note { border:.5px solid var(--rule); border-left:1.2mm solid var(--accent); padding:2.5mm 3.5mm; margin-top:5mm; font-size:8pt; line-height:1.6; }
+  .note p { margin:0 0 1.5mm; } .note p:last-child { margin:0; }
+  /* 본문 */
+  .split { display:grid; grid-template-columns:1.1fr 1fr; gap:7mm; align-items:start; margin-bottom:4mm; }
+  .cols2 { display:grid; grid-template-columns:1fr 1fr; gap:7mm; align-items:start; margin-bottom:3mm; }
+  .cols2 p:last-child { margin-bottom:0; }
+  figure { margin:0; }
+  figcaption { font-size:9pt; font-weight:700; margin-bottom:2mm; }
+  .source { font-size:7pt; line-height:1.5; color:var(--gray); margin-top:2mm; }
+  table { width:100%; border-collapse:collapse; font-size:8pt; line-height:1.5; }
+  th { text-align:left; font-weight:700; border-bottom:1.5px solid var(--ink); padding:1.6mm 1.2mm; vertical-align:bottom; }
+  td { border-bottom:.5px solid var(--rule); padding:1.6mm 1.2mm; vertical-align:top; }
+  table.compact { line-height:1.4; } table.compact th, table.compact td { padding:.55mm 1.2mm; }
+  td:first-child, th:first-child { white-space:nowrap; padding-right:3mm; }
+  td.n, th.n { text-align:right; }
+  tr.hl td { background:#e6eef8; font-weight:700; }
+  .legend { font-size:7.5pt; margin-top:2mm; } .legend span.sw { display:inline-block; width:2.6mm; height:2.6mm; margin-right:1.2mm; vertical-align:-0.3mm; }
+  .legend div { padding:.7mm 0; border-bottom:.5px solid var(--rule); display:flex; justify-content:space-between; }
+  .flow { display:flex; align-items:stretch; gap:1.4mm; }
+  .flow .cell { flex:1; background:var(--tint); padding:2.4mm 1.5mm; text-align:center; line-height:1.4; }
+  .flow .cell small { display:block; font-size:7pt; color:var(--gray); } .flow .cell b { font-size:10pt; }
+  .flow .op { align-self:center; font-size:10pt; font-weight:700; color:var(--gray); }
+  .flow .cell.total { flex:1.3; background:var(--accent-4); color:#fff; } .flow .cell.total small { color:var(--accent-3); }
+  .badge { background:var(--tint); border-left:1.5mm solid var(--accent); padding:4mm 5mm; }
+  .badge small { display:block; font-size:7.5pt; color:var(--gray); }
+  .badge b { display:block; font-size:18pt; line-height:1.2; color:var(--accent); margin:.5mm 0 1.5mm; }
+  .badge p { margin:0; }
+  .stats { display:grid; gap:2mm; }
+  .stat { background:var(--tint); border-left:1mm solid var(--accent-2); padding:2mm 3.5mm; line-height:1.35; }
+  .stat small { display:block; font-size:7.5pt; color:var(--gray); } .stat span { display:block; font-size:7pt; color:var(--gray); }
+  .stat b { display:block; font-size:13pt; color:var(--accent); }
+  ol.implication { list-style:none; padding:0; margin:0; counter-reset:todo; border-top:1.5px solid var(--ink); }
+  ol.implication li { counter-increment:todo; position:relative; margin:0; padding:1.7mm 0 1.7mm 9mm; border-bottom:.5px solid var(--rule); }
+  ol.implication li::before { content:counter(todo); position:absolute; left:0; top:1.6mm; width:5.4mm; height:5.4mm; border-radius:50%;
+    background:var(--accent); color:#fff; font-size:8pt; font-weight:700; line-height:5.4mm; text-align:center; }
+  .refs { font-size:7.5pt; line-height:1.5; color:var(--gray); margin-bottom:1.5mm; } ol.refs { padding-left:4mm; margin:0; } ol.refs li { margin-bottom:.8mm; }
+  .running { font-size:7pt; color:var(--gray); border-top:.5px solid var(--rule); padding-top:2mm; margin-top:8mm; }
+</style></head><body><section class="page fit cover"><div><div class="bar"></div>
+<p class="eyebrow">수입 후보 원가·시장 리포트 · 2026-11-16</p><h1>아사히 수퍼드라이 캔의 도착 원가와 FTA 판정</h1><p class="lead">소규모 주류 수입사 상품 기획 담당자 대상 · 견적 전 후보 검토용 참고 원가 · 일본산 맥주 · 입력가 220JPY 기준</p>
+<div class="facts"><div><span>제품</span><b>아사히 수퍼드라이 350ml 캔</b></div><div><span>주종 · 품목 코드</span><b>맥주 · 2203000000</b></div><div><span>원산지 · 구매국</span><b>일본 · 일본</b></div><div><span>입력가 · 가격 종류</span><b>220 JPY · 소매가</b></div><div><span>과세환율</span><b>JPY 1단위 8.465원</b></div><div><span>환율 적용 주간</span><b>2026-11-15~2026-11-21</b></div><div><span>적용 관세율</span><b>협정세율 22.5% / 일반세율 30%</b></div><div><span>FTA 판정</span><b>확인 필요</b></div></div></div>
+<div class="grow"></div>
+<p class="meta">작성 2026-11-16 · 작성자 수입 주류 원가·시장 리포트 에이전트 · 자료 출처: 관세청 관세환율정보, 품목번호별 관세율표, 품목별 국가별 수출입실적</p></section><section class="page fit"><p class="eyebrow">요약</p><h2>입력가 기준 채산 판단의 세 가지 근거</h2>
+<p class="concl"><b>결론</b>아사히 수퍼드라이 캔의 도착 원가는 입력가 220JPY 기준 2,953원이며 세금이 36.9%를 차지한다.</p><div class="keys">
+<div class="key"><div class="big num">2,953원</div><div class="cmp">일반세율 원가 3,106원 대비 154원 낮음</div><p>협정세율 적용 도착 원가는 과세가격에 세금 1,090원이 더해진 금액이다.</p></div>
+<div class="key"><div class="big num">36.9%</div><div class="cmp">도착 원가 2,953원 대비 세금 비중</div><p>주세와 교육세가 세금 1,090원의 37%를 차지한다.</p></div>
+<div class="key"><div class="big num">94.8백만 달러</div><div class="cmp">직전 12개월 78.6백만 달러 대비 +20.7%</div><p>일본산 동일 품목의 최근 12개월 수입액이다.</p></div></div>
+<h3>장별 결론</h3><table class="compact"><tr><th class="">장</th><th class="">결론</th><th class="n">쪽</th></tr><tr><td class="">1장 · 원가</td><td class="">도착 원가의 37%가 세금으로 구성</td><td class="n">3</td></tr><tr><td class="">2장 · FTA</td><td class="">FTA 판정은 확인 필요, 협정세율 적용 시 154원 절감</td><td class="n">4</td></tr><tr><td class="">3장 · 시장</td><td class="">일본산 맥주 수입액, 직전 12개월 대비 20.7% 확대</td><td class="n">5</td></tr><tr><td class="">시사점</td><td class="">후보 판단 전에 확인할 과제</td><td class="n">6</td></tr></table>
+<div class="note"><p><b>참고 원가다.</b> 이 리포트는 관세사·포워더 견적을 받기 전에 여러 후보 가운데 견적을 받아 볼 후보를 거르는 용도다. 운임·보험료·통관·국내운송비는 거래마다 달라 가정값(모두 0원, 미포함)으로 계산했으므로, 견적을 받으면 아래 표로 도착 원가를 보정한다. 예상 소비자가는 도착 원가에 마진율 30%(가정)을 붙인 값이다.</p></div>
+<h3>견적을 받으면 이렇게 보정한다 (협정세율 기준)</h3><table><tr><th class="">비용 항목</th><th class="">도착 원가에 반영되는 방식</th><th class="n">1원당 도착 원가 증가</th><th class="n">예시 금액</th><th class="n">도착 원가 증가</th><th class="n">예상 소비자가 증가</th></tr><tr><td class="">운임·보험료</td><td class="">과세가격에 들어가 관세·부가세가 함께 붙음(주세는 용량 기준)</td><td class="n">1.35원</td><td class="n">현지가의 10%(22JPY, 186원)</td><td class="n">+251원</td><td class="n">+326원</td></tr><tr><td class="">통관·국내운송비</td><td class="">세금 계산 뒤에 더해져 금액만큼 늘어남</td><td class="n">1.00원</td><td class="n">100,000원</td><td class="n">+100,000원</td><td class="n">+130,000원</td></tr></table><p class="source">출처: 본 에이전트 계산(같은 세율·과세환율로 비용만 늘려 다시 계산). 예상 소비자가 증가는 마진율 30%(가정) 적용. 숫자의 근거 목록은 같은 폴더의 facts.csv에 있다.</p><div class="grow"></div><div class="pagefoot"><span>수입 후보 원가·시장 리포트 · 아사히 수퍼드라이 캔 · 2026-11-16</span><span class="num">2 / 6</span></div></section><section class="page fit"><p class="eyebrow">1장 · 원가</p><h2>도착 원가의 37%가 세금으로 구성</h2>
+<p class="lead">입력가 220JPY에 과세환율 8.465원을 곱한 과세가격은 1,862원이며, 세금 1,090원이 더해져 도착 원가는 2,953원이다.</p>
+<figure style="margin-bottom:6mm"><figcaption>과세가격에서 도착 원가까지 (단위: 원, 협정세율 기준)</figcaption><div class="flow"><div class="cell"><small>과세가격</small><b class="num">1,862</b></div><span class="op">+</span><div class="cell"><small>관세</small><b class="num">419</b></div><span class="op">+</span><div class="cell"><small>주세</small><b class="num">310</b></div><span class="op">+</span><div class="cell"><small>교육세</small><b class="num">93</b></div><span class="op">+</span><div class="cell"><small>부가세</small><b class="num">268</b></div><span class="op">=</span><div class="cell total"><small>도착 원가</small><b class="num">2,953원</b></div></div></figure>
+<div class="split"><figure><figcaption>도착 원가 구성 (단위: 원, 협정세율 기준, 2026-11-16)</figcaption><svg viewBox="0 0 300 46" width="100%" role="img" aria-label="도착 원가 구성 막대"><rect x="0.0" y="4" width="189.2" height="38" fill="var(--accent-3)"/><text x="94.6" y="27" font-size="9" font-weight="700" fill="#231f20" text-anchor="middle">63%</text><rect x="189.2" y="4" width="42.6" height="38" fill="var(--accent-5)"/><text x="210.5" y="27" font-size="9" font-weight="700" fill="#231f20" text-anchor="middle">14%</text><rect x="231.8" y="4" width="31.5" height="38" fill="var(--accent-4)"/><text x="247.5" y="27" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">10%</text><rect x="263.3" y="4" width="9.4" height="38" fill="var(--accent)"/><rect x="272.7" y="4" width="27.3" height="38" fill="var(--accent-2)"/></svg><div class="legend"><div><span><span class="sw" style="background:var(--accent-3)"></span>과세가격</span><span class="num">1,862원 (63.1%)</span></div><div><span><span class="sw" style="background:var(--accent-5)"></span>관세</span><span class="num">419원 (14.2%)</span></div><div><span><span class="sw" style="background:var(--accent-4)"></span>주세</span><span class="num">310원 (10.5%)</span></div><div><span><span class="sw" style="background:var(--accent)"></span>교육세</span><span class="num">93원 (3.1%)</span></div><div><span><span class="sw" style="background:var(--accent-2)"></span>부가세</span><span class="num">268원 (9.1%)</span></div></div>
+<p class="source">출처: 관세청 관세환율정보(적용 주간 2026-11-15~2026-11-21), 관세청 품목번호별 관세율표 2026, 주세법 제8조, 교육세법 제5조 (계산: 본 에이전트)</p></figure>
+<div><h3>세금 구성</h3><p>맥주는 가격이 아니라 용량에 주세가 붙는 종량세 주종이다. 주세는 용량 350ml에 리터당 885.7원을 곱한 310원으로 세금 1,090원의 28%다.</p><p>교육세는 주세의 30%인 93원이 붙는다. 관세는 419원으로 세금 전체의 38%를 차지한다. 가격이 올라도 주세는 변하지 않고 관세와 부가세만 늘어난다.</p></div></div>
+<figure><figcaption>세율 구분별 원가 분해표 (단위: 원)</figcaption><table><tr><th class="">구분(원)</th><th class="n">협정세율 22.5%</th><th class="n">일반세율 30.0%</th></tr><tr><td class="">과세가격</td><td class="n">1,862</td><td class="n">1,862</td></tr><tr><td class="">관세</td><td class="n">419</td><td class="n">559</td></tr><tr><td class="">주세</td><td class="n">310</td><td class="n">310</td></tr><tr><td class="">교육세</td><td class="n">93</td><td class="n">93</td></tr><tr><td class="">부가세</td><td class="n">268</td><td class="n">282</td></tr><tr><td class="">통관·국내운송(가정)</td><td class="n">0</td><td class="n">0</td></tr><tr class="hl"><td class="">도착 원가</td><td class="n">2,953</td><td class="n">3,106</td></tr></table>
+<p class="source">출처: 본 에이전트 계산. 통관·국내운송비는 가정값 0원이다.</p></figure><div class="grow"></div><div class="pagefoot"><span>수입 후보 원가·시장 리포트 · 아사히 수퍼드라이 캔 · 2026-11-16</span><span class="num">3 / 6</span></div></section><section class="page fit"><p class="eyebrow">2장 · FTA</p><h2>FTA 판정은 확인 필요, 협정세율 적용 시 154원 절감</h2>
+<p class="lead">판정 결과는 「확인 필요」이며 근거는 원산지증명서 발급 가능 여부 또는 생산지가 확인되지 않았다.</p>
+<div class="split"><div class="badge"><small>FTA 판정 · RCEP</small><b>확인 필요</b><p>협정세율 22.5% · 일반세율 30%</p></div>
+<figure><figcaption>세율별 관세와 도착 원가</figcaption><table><tr><th class="">세율 구분</th><th class="n">관세율</th><th class="n">관세</th><th class="n">도착 원가</th></tr><tr><td class="">협정세율</td><td class="n">22.5%</td><td class="n">419원</td><td class="n">2,953원</td></tr><tr><td class="">일반세율</td><td class="n">30%</td><td class="n">559원</td><td class="n">3,106원</td></tr></table>
+<p class="source">출처: 본 에이전트 계산(관세청 품목번호별 관세율표 2026).</p></figure></div>
+<figure><figcaption>FTA 3단계 판정 기준 (현재 판정 강조)</figcaption><table><tr><th class="">판정</th><th class="">조건</th><th class="">원가 처리</th></tr><tr><td class="">적용 가능</td><td class="">협정·품목 있음, 원산지 일치, 생산 「예」, 증명서 「예」</td><td class="">협정세율, 필요 서류 안내</td></tr><tr class="hl"><td class="">확인 필요</td><td class="">증명서 「모름」, 경유 구매, 규칙표에 없음</td><td class="">협정·일반 두 원가 병기</td></tr><tr><td class="">적용 불가</td><td class="">협정 없음, 대상 품목 아님, 증명서 「아니오」</td><td class="">일반세율</td></tr></table>
+<p class="source">출처: 관세청 품목번호별 관세율표 2026(공공데이터포털 15051179), YES FTA 포털. 참고용 판정이며 실제 적용 여부는 통관 시 관세사를 통해 확정된다.</p></figure>
+<div class="cols2" style="margin-top:5mm"><div><h3>적용 세율</h3><p>RCEP 협정세율은 22.5%로 일반세율 30.0%보다 7.5%p 낮다. 이 차이로 도착 원가는 154원 달라진다. 다만 협정세율은 원산지증명서와 직접 운송 요건을 갖춘 경우에만 적용된다. </p></div><div><h3>응답과 경유 구매</h3><p>원산지 국가 생산 여부 응답은 「예」, 원산지증명서 발급 가능 여부 응답은 「모름」이다. 구매국과 원산지가 같아 경유 구매 문제는 없다.</p></div></div>
+<figure style="margin-top:5mm"><figcaption>세율별 도착 원가 비교 (단위: 원)</figcaption>
+<div style="width:64%"><svg viewBox="0 0 330 60" width="100%" role="img" aria-label="금액 비교 막대"><text x="0" y="17" font-size="8" fill="#231f20">협정세율 22.5%</text><rect x="122" y="4" width="142.6" height="19" fill="var(--accent-4)"/><text x="268.6" y="17" font-size="8" font-weight="700" fill="#231f20">2,953원</text><text x="0" y="45" font-size="8" fill="#231f20">일반세율 30%</text><rect x="122" y="32" width="150.0" height="19" fill="var(--accent)"/><text x="276.0" y="45" font-size="8" font-weight="700" fill="#231f20">3,106원</text></svg></div>
+<p class="source">출처: 본 에이전트 계산. 판정이 「확인 필요」여서 두 세율의 원가를 함께 제시한다.</p></figure><div class="grow"></div><div class="pagefoot"><span>수입 후보 원가·시장 리포트 · 아사히 수퍼드라이 캔 · 2026-11-16</span><span class="num">4 / 6</span></div></section><section class="page fit"><p class="eyebrow">3장 · 시장</p><h2>일본산 맥주 수입액, 직전 12개월 대비 20.7% 확대</h2>
+<p class="lead">HS 2203000000 품목의 일본산 수입 실적이며 최근월은 2026.10이다.</p>
+<div class="split" style="grid-template-columns:1.55fr 1fr"><figure><figcaption>월별 수입액 (단위: 달러, 최근 12개월)</figcaption><svg viewBox="0 0 330 113" width="100%" role="img" aria-label="월별 수입액 막대 그래프"><g font-size="7.5" fill="#5f636a"><line x1="30" y1="59.0" x2="326" y2="59.0" stroke="#e3e5e8"/><text x="27" y="62.0" text-anchor="end">5.3</text><line x1="30" y1="22.0" x2="326" y2="22.0" stroke="#e3e5e8"/><text x="27" y="25.0" text-anchor="end">10.5</text><text x="30" y="9">백만 달러</text></g><line x1="30" y1="96" x2="326" y2="96" stroke="#c8c9cc"/><rect x="34.0" y="60.3" width="17" height="35.7" fill="var(--accent-2)"/><rect x="58.5" y="47.6" width="17" height="48.4" fill="var(--accent-2)"/><rect x="83.0" y="51.4" width="17" height="44.6" fill="var(--accent-2)"/><rect x="107.5" y="48.9" width="17" height="47.1" fill="var(--accent-2)"/><rect x="132.0" y="43.7" width="17" height="52.3" fill="var(--accent-2)"/><rect x="156.5" y="34.0" width="17" height="62.0" fill="var(--accent-2)"/><rect x="181.0" y="44.1" width="17" height="51.9" fill="var(--accent-2)"/><rect x="205.5" y="30.8" width="17" height="65.2" fill="var(--accent-2)"/><rect x="230.0" y="22.0" width="17" height="74.0" fill="var(--accent-2)"/><rect x="254.5" y="25.3" width="17" height="70.7" fill="var(--accent-2)"/><rect x="279.0" y="34.5" width="17" height="61.5" fill="var(--accent-2)"/><rect x="303.5" y="42.0" width="17" height="54.0" fill="var(--accent)"/><g font-size="7.5" fill="#5f636a" text-anchor="middle"><text x="67.0" y="108">25.12</text><text x="116.0" y="108">26.02</text><text x="165.0" y="108">26.04</text><text x="214.0" y="108">26.06</text><text x="263.0" y="108">26.08</text><text x="312.0" y="108">26.10</text><text x="238.5" y="19.0" font-weight="700" fill="#231f20">10.5</text><text x="312.0" y="39.0" font-weight="700" fill="#231f20">7.7</text></g></svg>
+<p class="source">출처: 관세청 품목별 국가별 수출입실적(공공데이터포털 15100475), 조회 2026-11-16</p></figure>
+<div class="stats"><div class="stat"><small>최근 12개월 수입액</small><b class="num">94.8백만 달러</b><span>직전 12개월 대비 +20.7%</span></div><div class="stat"><small>평균 수입단가</small><b class="num">0.79달러/kg</b><span>최근 12개월, 수입액 ÷ 중량</span></div><div class="stat"><small>후보 환산 단가(근사)</small><b class="num">평균의 5.1배</b><span>약 4달러/kg, 입력가 기준</span></div></div></div>
+<div class="cols2"><div><h3>수입 추이</h3><p>최근 12개월 일본산 수입액은 94,845,140 달러로 직전 12개월 78,595,093 달러보다 20.7% 늘었다. 월별 최대는 2026.07의 10,517,390 달러이고 최근월 2026.10의 수입액은 7,668,160 달러였다. 또한 평균 단가는 0.79달러/kg이며 최근월은 0.82달러/kg이다. 이 단가는 품목 전체 평균이어서 병당 가격과는 근사 비교만 가능하다.</p></div><div><h3>후보의 가격 위치</h3><p>후보의 입력가를 달러로 환산하면 약 4달러/kg로, 최근 12개월 평균 수입단가 0.79달러/kg의 5.1배에 해당한다. 월별 단가 12개 가운데 12개보다 높은 수준이며 월별 최고 0.82달러/kg과 최저 0.77달러/kg의 범위 밖에 있다. 이 평균에는 저가 제품이 함께 들어 있어서 프리미엄 제품은 높게 나온다. 순중량은 용량과 도수(0.35kg)로 추정한 근사값이다.</p></div></div>
+<figure><figcaption>월별 수입 실적 (단위: 달러, kg, 달러/kg)</figcaption><table class="compact"><tr><th class="">월</th><th class="n">수입액</th><th class="n">중량(kg)</th><th class="n">단가</th><th class="n">전년 동월 대비</th></tr><tr><td class="">2025.11</td><td class="n">5,076,072</td><td class="n">6,528,694</td><td class="n">0.78</td><td class="n">-9.0%</td></tr><tr><td class="">2025.12</td><td class="n">6,877,703</td><td class="n">8,760,338</td><td class="n">0.79</td><td class="n">+18.1%</td></tr><tr><td class="">2026.01</td><td class="n">6,342,148</td><td class="n">8,155,903</td><td class="n">0.78</td><td class="n">+20.7%</td></tr><tr><td class="">2026.02</td><td class="n">6,692,447</td><td class="n">8,427,331</td><td class="n">0.79</td><td class="n">-1.1%</td></tr><tr><td class="">2026.03</td><td class="n">7,435,382</td><td class="n">9,409,734</td><td class="n">0.79</td><td class="n">+61.8%</td></tr><tr><td class="">2026.04</td><td class="n">8,813,180</td><td class="n">11,313,826</td><td class="n">0.78</td><td class="n">+69.3%</td></tr><tr><td class="">2026.05</td><td class="n">7,372,625</td><td class="n">9,326,806</td><td class="n">0.79</td><td class="n">+16.3%</td></tr><tr><td class="">2026.06</td><td class="n">9,265,798</td><td class="n">11,671,806</td><td class="n">0.79</td><td class="n">+29.8%</td></tr><tr><td class="">2026.07</td><td class="n">10,517,390</td><td class="n">13,628,975</td><td class="n">0.77</td><td class="n">+23.8%</td></tr><tr><td class="">2026.08</td><td class="n">10,048,099</td><td class="n">12,783,349</td><td class="n">0.79</td><td class="n">+36.5%</td></tr><tr><td class="">2026.09</td><td class="n">8,736,136</td><td class="n">11,054,120</td><td class="n">0.79</td><td class="n">-3.3%</td></tr><tr><td class="">2026.10</td><td class="n">7,668,160</td><td class="n">9,347,493</td><td class="n">0.82</td><td class="n">+9.6%</td></tr></table>
+<p class="source">출처: 위와 같음. 단가는 수입액을 중량으로 나눈 값이다.</p></figure><div class="grow"></div><div class="pagefoot"><span>수입 후보 원가·시장 리포트 · 아사히 수퍼드라이 캔 · 2026-11-16</span><span class="num">5 / 6</span></div></section><section class="page fit"><div style="margin-bottom:6mm"><p class="eyebrow">시사점</p><h2>후보 판단 전에 확인할 과제</h2>
+<ol class="implication"><li>견적을 받을 후보로 정하면 운임·보험료·통관비를 포워더·관세사 견적으로 확인하고, 요약 쪽의 민감도로 도착 원가를 보정할 필요가 있다.</li><li>거래처가 원산지증명서를 발급할 수 있는지 확인해 FTA 판정을 「적용 가능」 또는 「적용 불가」로 확정해야 한다.</li><li>과세환율은 매주 바뀌므로 후보를 등록할 때 적용 주간(2026-11-15~2026-11-21)을 함께 기록할 필요가 있다.</li></ol></div><p class="eyebrow">출처와 방법</p><h2>자료 목록과 계산 방법</h2>
+<div class="cols2"><figure><figcaption>입력 정보</figcaption><table class="compact"><tr><th class="">항목</th><th class="">값</th></tr><tr><td class="">제품</td><td class="">아사히 수퍼드라이 350ml 캔</td></tr><tr><td class="">주종 / HS 코드</td><td class="">맥주 / 2203000000</td></tr><tr><td class="">용량 / 도수</td><td class="">350ml / 5%</td></tr><tr><td class="">입력가 / 가격 종류 / 구매국</td><td class="">220 JPY / 소매가 / JP</td></tr><tr><td class="">제품 정보 확인</td><td class="">담당자 확인</td></tr></table>
+<p class="refs" style="margin-top:2.5mm"><b>가정값</b> 운임(현지 통화): 0 - 가정, 미반영(구매 가격에 포함된 것으로 봄) / 보험료(현지 통화): 0 - 가정, 미반영 / 통관·국내운송비(원): 0 - 가정, 미반영 / 마진율: 30% - 가정(입력하지 않으면 적용, 근거 없음)</p></figure>
+<div><h3>계산 방법</h3><p class="refs">과세가격 = (입력가 + 운임 + 보험료) × 과세환율. 관세 = 과세가격 × 관세율. 주세 = 용량(리터) × 리터당 885.7원(종량세). 교육세 = 주세 × 30%. 부가세 = (과세가격 + 관세 + 주세 + 교육세) × 10%. 도착 원가 = 위 합계 + 통관·국내운송비. 예상 소비자가 = 도착 원가 × (1 + 마진율).</p>
+<p class="refs">비워 둔 항목: 실제 운임·보험료·통관비, 현지가 자동 수집. 세액과 FTA 판정은 참고용이며 법률·세무 자문이 아니다.</p></div></div>
+<h3>자료 목록</h3><ol class="refs"><li>관세청, 관세환율정보(GW), 공공데이터포털 15101230, 적용 주간 2026-11-15~2026-11-21(수입·과세), 조회 2026-11-16.</li><li>관세청, 품목번호별 관세율표(2026), 공공데이터포털 15051179, 협정세율·일반세율(탄력·양허 F).</li><li>관세청, 품목별 국가별 수출입실적(GW), 공공데이터포털 15100475, 최근 24개월 조회.</li><li>국가법령정보센터, 주세법 제8조(세율), 교육세법 제5조(과세표준과 세율).</li></ol><div class="grow"></div><div class="pagefoot"><span>수입 후보 원가·시장 리포트 · 아사히 수퍼드라이 캔 · 2026-11-16</span><span class="num">6 / 6</span></div></section></body></html>

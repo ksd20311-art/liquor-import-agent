@@ -1,0 +1,13 @@
+# 웹앱 색 설정: 리포트와 같은 파란색 한 계열. 보는 사람의 기기가 어두운 모드여도 같은 모양으로 보이게 밝은 바탕으로 고정한다.
+[theme]
+base = "light"
+primaryColor = "#1e5e9e"
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#f3f6fa"
+textColor = "#231f20"
+
+[client]
+toolbarMode = "viewer"
+
+[browser]
+gatherUsageStats = false
